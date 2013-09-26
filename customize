@@ -1,0 +1,65 @@
+#!/usr/bin/bash
+
+PATH=/opt/local/gnu/bin:/opt/local/bin:/opt/local/sbin:/usr/bin:/usr/sbin
+
+# Exit if any commands fail
+set -o errexit
+
+# Ensure we have updated standard packages
+echo "* Updating standard packages.";
+
+# Configuring image specific packages
+echo "* Configuring image specific packages.";
+
+[ ! -f /opt/local/bin/python2 ] && ln -sf python /opt/local/bin/python2
+
+gem install charlock_holmes --version '0.6.9.4' --no-ri --no-rdoc
+gem install bundler --no-ri --no-rdoc
+
+useradd -m -d /home/git -c GitLab git
+passwd -u git
+
+# clone sources
+cd /home/git
+sudo -u git -H git clone https://github.com/gitlabhq/gitlab-shell.git gitlab-shell
+sudo -u git -H git clone https://github.com/gitlabhq/gitlabhq.git gitlab
+
+echo "* Configuring gitlab-shell.";
+cd /home/git/gitlab-shell
+sudo -u git -H git checkout v1.7.1
+sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
+
+echo "* Configuring gitlab.";
+cd /home/git/gitlab
+sudo -u git -H git checkout 6-1-stable
+mkdir /{repositories,gitlab-satellites}
+chown -R git /{repositories,gitlab-satellites}/
+chmod -R u+rwX  /{repositories,gitlab-satellites}/
+chown -R git {log,tmp}/
+chmod -R u+rwX  {log,tmp}/
+sudo -u git -H mkdir tmp/{pids,sockets}/
+chmod -R u+rwX  tmp/{pids,sockets}/
+sudo -u git -H mkdir public/uploads
+chmod -R u+rwX  public/uploads
+sudo -u git -H cp /root/gitlab-gitlab.yml config/gitlab.yml
+sudo -u git -H cp /root/gitlab-unicorn.rb config/unicorn.rb
+sudo -u git -H cp /root/gitlab-database.yml config/database.yml
+sudo -u git -H chmod o-rwx config/database.yml
+
+echo "* Installing gems.";
+sudo -u git -H bundle install --deployment --without development test postgres aws
+
+echo "* Importing services.";
+svccfg import /root/gitlab.xml
+svccfg import /root/gitlab-sidekiq.xml
+
+echo "* Configuring nginx.";
+cp /root/nginx.conf /opt/local/etc/nginx/nginx.conf
+
+# Clean up
+echo "* Cleaning up."
+rm -rf /root/*
+rm -rf /tmp/*
+
+# Prepare image for provisioning
+sm-prepare-image -y

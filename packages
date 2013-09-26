@@ -1,0 +1,12 @@
+nginx
+scmgit-base
+gmake
+gcc47
+libxslt
+libxml2
+icu
+postfix
+python27
+ruby193
+redis
+mysql-server
