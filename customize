@@ -13,6 +13,7 @@ echo "* Configuring image specific packages.";
 
 [ ! -f /opt/local/bin/python2 ] && ln -sf python /opt/local/bin/python2
 
+gem install libv8 --version '3.16.14.3' --no-ri --no-rdoc
 gem install charlock_holmes --version '0.6.9.4' --no-ri --no-rdoc
 gem install bundler --no-ri --no-rdoc
 
