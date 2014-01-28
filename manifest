@@ -1,7 +1,7 @@
 name="gitlab"
 organization="SmartOS"
 brand="SmartMachine"
-version="13.2.0"
+version="13.3.1"
 description="GitLab is open source software to collaborate on code. Create projects and repositories, manage access and do code reviews."
 homepage="http://gitlab.org/"
 users="root admin mysql"

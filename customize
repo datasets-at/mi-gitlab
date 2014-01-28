@@ -26,12 +26,12 @@ sudo -u git -H git clone https://github.com/gitlabhq/gitlabhq.git gitlab
 
 echo "* Configuring gitlab-shell.";
 cd /home/git/gitlab-shell
-sudo -u git -H git checkout v1.7.1
+sudo -u git -H git checkout v1.8.0
 sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
 
 echo "* Configuring gitlab.";
 cd /home/git/gitlab
-sudo -u git -H git checkout 6-1-stable
+sudo -u git -H git checkout 6-5-stable
 mkdir /{repositories,gitlab-satellites}
 chown -R git /{repositories,gitlab-satellites}/
 chmod -R u+rwX  /{repositories,gitlab-satellites}/
