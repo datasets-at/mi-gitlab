@@ -44,11 +44,46 @@ sudo -u git -H mkdir public/uploads
 chmod -R u+rwX  public/uploads
 sudo -u git -H cp /root/gitlab-gitlab.yml config/gitlab.yml
 sudo -u git -H cp /root/gitlab-unicorn.rb config/unicorn.rb
-sudo -u git -H cp /root/gitlab-database.yml config/database.yml
+sudo -u git -H cp /root/gitlab-database-rootparty.yml config/database.yml
 sudo -u git -H chmod o-rwx config/database.yml
 
 echo "* Installing gems.";
 sudo -u git -H bundle install --deployment --without development test postgres aws
+
+echo "* starting the MySQL instance"
+svcadm enable mysql
+
+echo "* waiting for the socket to show up"
+COUNT="0";
+while [[ ! -e /tmp/mysql.sock ]]; do
+        sleep 1
+        ((COUNT=COUNT+1))
+        if [[ $COUNT -eq 60 ]]; then
+          echo "ERROR Could not talk to MySQL after 60 seconds"
+    ERROR=yes
+    break 1
+  fi
+done
+[[ -n "${ERROR}" ]] && exit 1
+echo "(it took ${COUNT} seconds to start properly)"
+
+sleep 1
+
+[[ "$(svcs -Ho state mysql)" == "online" ]] || \
+  ( echo "ERROR MySQL SMF not reporting as 'online'" && exit 1 )
+
+echo "* creating database"
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS gitlabhq_production DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;" >/dev/null || \
+  ( echo "ERROR MySQL query failed to execute." && exit 1 )
+
+echo "* Precompiling assets.";
+sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production
+
+echo "* shutting down the MySQL instance"
+svcadm disable mysql
+
+echo "* Reconfiguring gitlab.";
+sudo -u git -H cp /root/gitlab-database.yml config/database.yml
 
 echo "* Importing services.";
 svccfg import /root/gitlab.xml
