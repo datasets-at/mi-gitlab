@@ -15,7 +15,7 @@ production: &base
   ## GitLab settings
   gitlab:
     ## Web server settings
-    host: %HOSTNAME%
+    host: "%HOSTNAME%"
     port: 80
     https: false
 
