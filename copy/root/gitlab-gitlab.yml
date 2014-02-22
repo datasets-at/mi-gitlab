@@ -155,7 +155,7 @@ production: &base
   ## GitLab Shell settings
   gitlab_shell:
     # REPOS_PATH MUST NOT BE A SYMLINK!!!
-    repos_path: /repositories/
+    repos_path: /home/git/repositories/
     hooks_path: /home/git/gitlab-shell/hooks/
 
     # Git over HTTP
