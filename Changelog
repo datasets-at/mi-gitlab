@@ -1,3 +1,7 @@
+13.3.2:
+- upgrade to Gitlab 6.6 CE
+- moved repositories and gitlab-satellites back to their default locations
+
 13.3.1:
 - upgrade to Gitlab 6.5 CE and base64 13.3.1
 - switch to ruby200

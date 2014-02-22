@@ -145,7 +145,7 @@ production: &base
   # GitLab Satellites
   satellites:
     # Relative paths are relative to Rails.root (default: tmp/repo_satellites/)
-    path: /gitlab-satellites/
+    path: tmp/gitlab-satellites/
 
   ## Backup settings
   backup:

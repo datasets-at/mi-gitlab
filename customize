@@ -32,10 +32,10 @@ sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
 
 echo "* Configuring gitlab.";
 cd /home/git/gitlab
-sudo -u git -H git checkout 6-5-stable
-mkdir /{repositories,gitlab-satellites}
-chown -R git /{repositories,gitlab-satellites}/
-chmod -R u+rwX  /{repositories,gitlab-satellites}/
+sudo -u git -H git checkout 6-6-stable
+mkdir {../repositories,tmp/gitlab-satellites}
+chown -R git {../repositories,tmp/gitlab-satellites}/
+chmod -R u+rwX  {../repositories,tmp/gitlab-satellites}/
 chown -R git {log,tmp}/
 chmod -R u+rwX  {log,tmp}/
 sudo -u git -H mkdir tmp/{pids,sockets}/
