@@ -1,5 +1,5 @@
 nginx
-scmgit-base
+git-base
 gmake
 gcc47
 libxslt
@@ -9,4 +9,4 @@ postfix
 python27
 ruby200
 redis
-mysql-server
+percona-server

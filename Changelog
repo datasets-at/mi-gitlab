@@ -1,3 +1,8 @@
+13.4.0:
+- upgrade to Gitlab 6.7 CE
+- switched to percona-server
+- changed to base64-13.4.0 image as building base
+
 13.3.2:
 - upgrade to Gitlab 6.6 CE
 - moved repositories and gitlab-satellites back to their default locations

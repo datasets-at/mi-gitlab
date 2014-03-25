@@ -15,7 +15,7 @@ DELETE FROM mysql.db WHERE Db='test' OR Db='test\\_%';
 FLUSH PRIVILEGES;"
 
 log "starting the MySQL instance"
-svcadm enable mysql
+svcadm enable percona
 
 log "waiting for the socket to show up"
 COUNT="0";
@@ -33,7 +33,7 @@ log "(it took ${COUNT} seconds to start properly)"
 
 sleep 1
 
-[[ "$(svcs -Ho state mysql)" == "online" ]] || \
+[[ "$(svcs -Ho state percona)" == "online" ]] || \
   ( log "ERROR MySQL SMF not reporting as 'online'" && exit 31 )
 
 log "running the access lockdown SQL query"
@@ -75,7 +75,6 @@ sudo -u git -H git config --global core.autocrlf input
 
 log "configuring gitlab-shell"
 cd /home/git/gitlab-shell
-sudo -u git -H ./bin/install
 
 log "configuring gitlab"
 cd /home/git/gitlab
