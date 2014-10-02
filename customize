@@ -13,8 +13,9 @@ echo "* Configuring image specific packages.";
 
 [ ! -f /opt/local/bin/python2 ] && ln -sf python /opt/local/bin/python2
 
-gem install libv8 --version '3.16.14.3' --no-ri --no-rdoc
-gem install charlock_holmes --version '0.6.9.4' --no-ri --no-rdoc
+# injecting an updated libssh2 package for the rugged gem
+/opt/local/sbin/pkg_add -vu /root/packages/libssh2-1.4.3.tgz
+
 gem install bundler --no-ri --no-rdoc
 
 useradd -m -d /home/git -c GitLab git
@@ -27,19 +28,15 @@ sudo -u git -H git clone https://github.com/gitlabhq/gitlabhq.git gitlab
 
 echo "* Configuring gitlab-shell.";
 cd /home/git/gitlab-shell
-sudo -u git -H git checkout v1.9.1
+sudo -u git -H git checkout v2.0.0
 sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
 sudo -u git -H ./bin/install
 
 echo "* Configuring gitlab.";
 cd /home/git/gitlab
-sudo -u git -H git checkout 6-7-stable
+sudo -u git -H git checkout 7-3-stable
 chown -R git {log,tmp}/
 chmod -R u+rwX  {log,tmp}/
-sudo -u git -H mkdir tmp/{pids,sockets}/
-chmod -R u+rwX  tmp/{pids,sockets}/
-sudo -u git -H mkdir public/uploads
-chmod -R u+rwX  public/uploads
 sudo -u git -H cp /root/gitlab-gitlab.yml config/gitlab.yml
 sudo -u git -H cp /root/gitlab-unicorn.rb config/unicorn.rb
 sudo -u git -H cp /root/gitlab-database-rootparty.yml config/database.yml
@@ -92,6 +89,7 @@ cp /root/nginx.conf /opt/local/etc/nginx/nginx.conf
 
 # Clean up
 echo "* Cleaning up."
+/opt/local/sbin/pkg_delete cmake gmake gcc47 pkg-config
 rm -rf /root/*
 rm -rf /tmp/*
 

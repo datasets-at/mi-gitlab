@@ -76,6 +76,11 @@ sudo -u git -H git config --global core.autocrlf input
 log "configuring gitlab-shell"
 cd /home/git/gitlab-shell
 
+log "getting gitlab_root_pw"
+
+GITLAB_ROOT_PW=${GITLAB_ROOT_PW:-$(mdata-get gitlab_root_pw 2>/dev/null)} || \
+GITLAB_ROOT_PW="5iveL!fe";
+
 log "configuring gitlab"
 cd /home/git/gitlab
 gsed -i \
@@ -84,7 +89,7 @@ gsed -i \
 gsed -i \
         -e "s/%HOSTNAME%/${HOSTNAME}/" \
         /home/git/gitlab/config/gitlab.yml
-sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production force=yes
+sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production GITLAB_ROOT_PASSWORD="${GITLAB_ROOT_PW}" force=yes
 
 log "starting the postfix instance"
 svcadm enable postfix

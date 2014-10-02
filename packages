@@ -1,12 +1,14 @@
 nginx
 git-base
+cmake
 gmake
 gcc47
+pkg-config
 libxslt
 libxml2
 icu
 postfix
 python27
-ruby200
+ruby212
 redis
 percona-server

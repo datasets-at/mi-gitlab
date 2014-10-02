@@ -1,3 +1,9 @@
+14.2.0:
+- upgrade to Gitlab 7.3.2 CE
+- switch to ruby212
+- made GitLab root users password setable via metadata
+- changed to base64-14.2.0 image as building base
+
 13.4.0:
 - upgrade to Gitlab 6.7 CE
 - switched to percona-server
