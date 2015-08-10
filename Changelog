@@ -1,3 +1,6 @@
+14.2.1:
+- upgrade to Gilab 7.13.0 CE
+
 14.2.0:
 - upgrade to Gitlab 7.3.2 CE
 - switch to ruby212
