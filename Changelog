@@ -1,6 +1,8 @@
-14.2.1:
+15.2.0:
 - upgrade to Gilab 7.13.0 CE
 - tweaked percona server config to fix performance issues
+- changed to base-64-15.2.0
+- switch to ruby-2.2.2
 
 14.2.0:
 - upgrade to Gitlab 7.3.2 CE

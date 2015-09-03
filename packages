@@ -9,6 +9,6 @@ libxml2
 icu
 postfix
 python27
-ruby212
+ruby22-base
 redis
 percona-server
