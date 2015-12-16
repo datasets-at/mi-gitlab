@@ -2,7 +2,7 @@ nginx
 git-base
 cmake
 gmake
-gcc47
+gcc48
 pkg-config
 libxslt
 libxml2
