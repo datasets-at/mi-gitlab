@@ -1,9 +1,8 @@
 name="gitlab"
 organization="SmartOS"
 brand="SmartMachine"
-version="15.2.0"
+version="15.3.0"
 description="GitLab is open source software to collaborate on code. Create projects and repositories, manage access and do code reviews."
 homepage="https://github.com/datasets-at/mi-gitlab"
 users="root admin mysql gitlab_root"
-base="5c7d0d24-3475-11e5-8e67-27953a8b237e"
-
+base="842e6fa6-6e9b-11e5-8402-1b490459e334"
