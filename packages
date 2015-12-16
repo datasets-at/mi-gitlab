@@ -12,3 +12,4 @@ python27
 ruby22-base
 redis
 percona-server
+go
