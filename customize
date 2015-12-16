@@ -46,7 +46,7 @@ sudo -u git -H cp /root/gitlab-database-rootparty.yml config/database.yml
 sudo -u git -H chmod o-rwx config/database.yml
 
 echo "* Installing gems.";
-sudo -u git -H bundle install --deployment --without development test postgres aws
+sudo -u git -H NOKOGIRI_USE_SYSTEM_LIBRARIES=yes bundle install --deployment --without development test postgres aws
 
 echo "* starting the MySQL instance"
 svcadm enable percona
