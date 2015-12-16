@@ -2,7 +2,7 @@ nginx
 git-base
 cmake
 gmake
-gcc47
+gcc48
 pkg-config
 libxslt
 libxml2
@@ -12,3 +12,4 @@ python27
 ruby22-base
 redis
 percona-server
+go

@@ -22,16 +22,22 @@ passwd -u git
 cd /home/git
 sudo -u git -H git clone https://github.com/gitlabhq/gitlab-shell.git gitlab-shell
 sudo -u git -H git clone https://github.com/gitlabhq/gitlabhq.git gitlab
+sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-workhorse.git gitlab-workhorse
+
+echo "* Configuring gitlab-workhorse.";
+cd /home/git/gitlab-workhorse
+sudo -u git -H git checkout 0.4.2
+sudo -u git -H make
 
 echo "* Configuring gitlab-shell.";
 cd /home/git/gitlab-shell
-sudo -u git -H git checkout v2.6.3
+sudo -u git -H git checkout v2.6.8
 sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
 sudo -u git -H ./bin/install
 
 echo "* Configuring gitlab.";
 cd /home/git/gitlab
-sudo -u git -H git checkout 7-13-stable
+sudo -u git -H git checkout 8-3-stable
 chown -R git {log,tmp}/
 chmod -R u+rwX  {log,tmp}/
 sudo -u git -H cp /root/gitlab-gitlab.yml config/gitlab.yml
@@ -40,7 +46,7 @@ sudo -u git -H cp /root/gitlab-database-rootparty.yml config/database.yml
 sudo -u git -H chmod o-rwx config/database.yml
 
 echo "* Installing gems.";
-sudo -u git -H bundle install --deployment --without development test postgres aws
+sudo -u git -H NOKOGIRI_USE_SYSTEM_LIBRARIES=yes bundle install --deployment --without development test postgres aws
 
 echo "* starting the MySQL instance"
 svcadm enable percona
@@ -80,13 +86,14 @@ sudo -u git -H cp /root/gitlab-database.yml config/database.yml
 echo "* Importing services.";
 svccfg import /root/gitlab.xml
 svccfg import /root/gitlab-sidekiq.xml
+svccfg import /root/gitlab-workhorse.xml
 
 echo "* Configuring nginx.";
 cp /root/nginx.conf /opt/local/etc/nginx/nginx.conf
 
 # Clean up
 echo "* Cleaning up."
-/opt/local/sbin/pkg_delete cmake gmake gcc47 pkg-config
+/opt/local/sbin/pkg_delete cmake gmake gcc48 pkg-config
 rm -rf /root/*
 rm -rf /tmp/*
 
