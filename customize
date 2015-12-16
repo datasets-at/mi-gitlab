@@ -22,16 +22,22 @@ passwd -u git
 cd /home/git
 sudo -u git -H git clone https://github.com/gitlabhq/gitlab-shell.git gitlab-shell
 sudo -u git -H git clone https://github.com/gitlabhq/gitlabhq.git gitlab
+sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-workhorse.git gitlab-workhorse
+
+echo "* Configuring gitlab-workhorse.";
+cd /home/git/gitlab-workhorse
+sudo -u git -H git checkout 0.4.2
+sudo -u git -H make
 
 echo "* Configuring gitlab-shell.";
 cd /home/git/gitlab-shell
-sudo -u git -H git checkout v2.6.3
+sudo -u git -H git checkout v2.6.8
 sudo -u git -H cp /root/gitlab-shell-config.yml config.yml
 sudo -u git -H ./bin/install
 
 echo "* Configuring gitlab.";
 cd /home/git/gitlab
-sudo -u git -H git checkout 7-13-stable
+sudo -u git -H git checkout 8-3-stable
 chown -R git {log,tmp}/
 chmod -R u+rwX  {log,tmp}/
 sudo -u git -H cp /root/gitlab-gitlab.yml config/gitlab.yml
